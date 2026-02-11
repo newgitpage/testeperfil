@@ -3,736 +3,552 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teste DISC - Secretaria de Habitação</title>
-    <!-- Fontes e Bibliotecas -->
+    <title>TESTE DISC - Secretaria de Habitação</title>
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- jsPDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
-
     <style>
         :root {
-            --pantone-black: #000000;
-            --pantone-red: #DA291C; /* 485 C */
-            --pantone-blue: #0033A0; /* 286 C */
-            --pantone-yellow: #FFCD00; /* Yellow C */
-            --white: #FFFFFF;
-            --light-gray: #F3F4F6;
-            --card-blue: #E0F2FE;
-            --card-magenta: #FCE7F3;
-            --card-orange: #FFEDD5;
-            --card-green: #DCFCE7;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --pantone-black: #2D2926;
+            --pantone-red: #DA291C;
+            --pantone-blue: #0033A0;
+            --pantone-yellow: #FFCD00;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-
-        body {
-            background-color: var(--light-gray);
-            color: var(--pantone-black);
-            line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Header Layout */
-        header {
-            background-color: var(--pantone-blue);
-            color: var(--white);
-            padding: 1.5rem 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: var(--shadow);
-        }
-
-        .header-logo {
-            height: 80px;
-            width: auto;
-            object-fit: contain;
-        }
-
-        .header-titles {
-            text-align: center;
-            flex: 1;
-        }
-
-        .header-titles h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-            margin-bottom: 0.2rem;
-        }
-
-        .header-titles p {
-            font-size: 1rem;
-            font-weight: 400;
-            opacity: 0.9;
-        }
-
-        /* Navigation */
-        nav {
-            background-color: var(--pantone-black);
-            padding: 0.5rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        nav ul {
-            display: flex;
-            justify-content: center;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        nav a {
-            color: var(--white);
-            text-decoration: none;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            font-weight: 600;
-            padding: 0.5rem 1rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        nav a:hover {
-            color: var(--pantone-yellow);
-            background: rgba(255,255,255,0.1);
-            border-radius: 4px;
-        }
-
-        /* Main Content */
-        main {
-            flex: 1;
-            max-width: 1200px;
-            margin: 2rem auto;
-            width: 95%;
-        }
-
-        section {
-            display: none;
-            animation: fadeIn 0.4s ease;
-        }
-
-        section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Cards Home */
-        .home-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .card {
-            padding: 2.5rem;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            text-align: center;
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card h3 { margin-bottom: 1rem; font-size: 1.5rem; }
-        .card-1 { background-color: var(--card-blue); }
-        .card-2 { background-color: var(--card-magenta); }
-        .card-3 { background-color: var(--card-orange); }
-        .card-4 { background-color: var(--card-green); }
-
-        /* Test Section Styles */
-        #test-container {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .progress-bar-container {
-            height: 10px;
-            background: #eee;
-            border-radius: 5px;
-            margin-bottom: 2rem;
-            overflow: hidden;
-        }
-
-        #progress-bar {
-            height: 100%;
-            background: var(--pantone-blue);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .question-text {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-        }
-
-        .options-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .option-btn {
-            padding: 1rem;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            background: none;
-            text-align: left;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 1rem;
-        }
-
-        .option-btn:hover {
-            border-color: var(--pantone-blue);
-            background: #f0f7ff;
-        }
-
-        .option-btn.selected {
-            border-color: var(--pantone-blue);
-            background: var(--pantone-blue);
-            color: white;
-        }
-
-        .controls {
-            margin-top: 2rem;
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        .btn-primary {
-            background: var(--pantone-blue);
-            color: white;
-            padding: 0.8rem 2rem;
-            border: none;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        /* Results / Dashboard */
-        .results-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-        }
-
-        .chart-container {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-        }
-
-        .result-info {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-        }
-
-        .profile-badge {
-            display: inline-block;
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            color: white;
-            font-weight: 800;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .famous-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-
-        .famous-item {
-            background: white;
-            padding: 1rem;
-            border-radius: 8px;
-            text-align: center;
-            border-top: 5px solid var(--pantone-blue);
-        }
-
-        /* Footer */
-        footer {
-            background-color: var(--pantone-black);
-            color: var(--white);
-            padding: 3rem 2rem;
-            margin-top: auto;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-        }
-
-        .feedback-form h4 { margin-bottom: 1rem; }
-        .stars { margin-bottom: 1rem; color: var(--pantone-yellow); font-size: 1.5rem; cursor: pointer; }
-        textarea { width: 100%; padding: 0.5rem; border-radius: 4px; border: none; min-height: 80px; }
-
-        @media (max-width: 768px) {
-            header { flex-direction: column; text-align: center; gap: 1rem; }
-            .results-grid, .footer-content { grid-template-columns: 1fr; }
-            nav ul { flex-wrap: wrap; gap: 0.5rem; }
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .bg-pantone-blue { background-color: var(--pantone-blue); }
+        .text-pantone-blue { color: var(--pantone-blue); }
+        .hover-nav:hover { background-color: rgba(0,0,0,0.2); }
+        .card-shadow { box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: transform 0.2s; }
+        .card-shadow:hover { transform: translateY(-5px); }
+        .fade-in { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .hidden-section { display: none; }
+        .progress-bar { transition: width 0.3s ease; }
     </style>
 </head>
-<body>
+<body class="text-slate-800">
 
-<header>
-    <img src="brasao-mogi.png" alt="Brasão de Mogi das Cruzes" class="header-logo" onerror="this.src='https://placehold.co/100x80?text=Mogi'">
-    <div class="header-titles">
-        <h1>TESTE DISC</h1>
-        <p>Secretaria Municipal de Habitação e Regularização Fundiária</p>
-    </div>
-    <img src="DISC-eixos.png" alt="Eixos DISC" class="header-logo" onerror="this.src='https://placehold.co/100x80?text=DISC'">
-</header>
-
-<nav>
-    <ul>
-        <li><a onclick="showSection('home')">Início</a></li>
-        <li><a onclick="showSection('explanation')">O que é DISC</a></li>
-        <li><a onclick="showSection('famous')">Famosos</a></li>
-        <li><a onclick="startTest()">Fazer o Teste</a></li>
-        <li><a onclick="showSection('dashboard')">Dashboard</a></li>
-    </ul>
-</nav>
-
-<main>
-    <!-- Home / Cards -->
-    <section id="home" class="active">
-        <h2 style="text-align:center; margin-bottom: 1rem;">Bem-vindo ao Portal de Gestão de Pessoas</h2>
-        <p style="text-align:center; color: #666;">Descubra seu perfil comportamental e potencialize suas competências.</p>
-        <div class="home-grid">
-            <div class="card card-1" onclick="showSection('explanation')">
-                <h3>Metodologia</h3>
-                <p>Entenda como funciona a teoria DISC de William Moulton Marston.</p>
+    <!-- HEADER -->
+    <header class="bg-pantone-blue text-white py-4 px-6 shadow-lg">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <img src="brasao-mogi.png" alt="Brasão Mogi" class="h-20 object-contain bg-white p-1 rounded">
+            <div class="text-center">
+                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tighter">TESTE DISC</h1>
+                <p class="text-sm md:text-base font-semibold opacity-90">Secretaria Municipal de Habitação e Regularização Fundiária</p>
             </div>
-            <div class="card card-2" onclick="showSection('famous')">
-                <h3>Perfis Famosos</h3>
-                <p>Veja personalidades conhecidas que compartilham seu estilo.</p>
-            </div>
-            <div class="card card-3" onclick="startTest()">
-                <h3>Iniciar Avaliação</h3>
-                <p>40 questões para um diagnóstico preciso do seu perfil.</p>
-            </div>
-            <div class="card card-4" onclick="showSection('dashboard')">
-                <h3>Meus Resultados</h3>
-                <p>Acompanhe seu histórico e evolução comportamental.</p>
-            </div>
+            <img src="DISC-eixos.png" alt="Eixos DISC" class="h-20 object-contain bg-white p-1 rounded">
         </div>
-    </section>
+    </header>
 
-    <!-- Explanation Section -->
-    <section id="explanation">
-        <div style="background: white; padding: 2.5rem; border-radius: 12px; box-shadow: var(--shadow);">
-            <h2 style="color: var(--pantone-blue); margin-bottom: 1.5rem;">O que é o Perfil DISC?</h2>
-            <p>O teste de perfil DISC é uma ferramenta de avaliação comportamental que visa compreender as características predominantes de um indivíduo em diferentes situações. Desenvolvido com base no trabalho de William Moulton Marston, o DISC divide o comportamento humano em quatro grandes eixos:</p>
-            
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0;">
-                <div style="padding: 1rem; border-left: 5px solid var(--pantone-red); background: #fff5f5;">
-                    <strong>D - Dominância:</strong> Foco em resultados, competitividade e superação de desafios.
-                </div>
-                <div style="padding: 1rem; border-left: 5px solid var(--pantone-yellow); background: #fffdeb;">
-                    <strong>I - Influência:</strong> Foco em pessoas, otimismo, entusiasmo e persuasão.
-                </div>
-                <div style="padding: 1rem; border-left: 5px solid var(--pantone-green); background: #f6fff9;">
-                    <strong>S - Estabilidade (Steadiness):</strong> Foco em cooperação, paciência e lealdade.
-                </div>
-                <div style="padding: 1rem; border-left: 5px solid var(--pantone-blue); background: #f0f7ff;">
-                    <strong>C - Conformidade:</strong> Foco em processos, precisão, lógica e qualidade.
-                </div>
-            </div>
-
-            <h3 style="margin-bottom: 1rem;">Como responder?</h3>
-            <ul>
-                <li>Seja honesto consigo mesmo. Não há respostas certas ou erradas.</li>
-                <li>Responda pensando em como você age na maior parte do tempo.</li>
-                <li>Não gaste muito tempo analisando; sua primeira reação costuma ser a mais fiel.</li>
-            </ul>
-            <button class="btn-primary" style="margin-top: 2rem;" onclick="startTest()">Estou pronto!</button>
+    <!-- NAVIGATION -->
+    <nav class="bg-slate-900 text-white sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex justify-center">
+            <button onclick="showSection('home')" class="px-6 py-4 font-semibold hover-nav uppercase text-sm border-b-2 border-transparent hover:border-pantone-yellow">Início</button>
+            <button onclick="showSection('explicação')" class="px-6 py-4 font-semibold hover-nav uppercase text-sm border-b-2 border-transparent hover:border-pantone-yellow">Explicação</button>
+            <button onclick="showSection('famosos')" class="px-6 py-4 font-semibold hover-nav uppercase text-sm border-b-2 border-transparent hover:border-pantone-yellow">Famosos</button>
+            <button onclick="showSection('teste')" class="px-6 py-4 font-semibold hover-nav uppercase text-sm border-b-2 border-transparent hover:border-pantone-yellow">O Teste</button>
+            <button onclick="showSection('dashboard')" class="px-6 py-4 font-semibold hover-nav uppercase text-sm border-b-2 border-transparent hover:border-pantone-yellow">Dashboard</button>
         </div>
-    </section>
+    </nav>
 
-    <!-- Famous Section -->
-    <section id="famous">
-        <h2 style="margin-bottom: 2rem; text-align: center;">Perfis de Sucesso no DISC</h2>
-        <div class="home-grid">
-            <div class="famous-item" style="border-top-color: var(--pantone-red);">
-                <h3 style="color: var(--pantone-red);">Dominância (D)</h3>
-                <p><strong>Exemplos:</strong> Steve Jobs, Michael Jordan, Margaret Thatcher.</p>
-                <p style="font-size: 0.9rem; margin-top: 1rem;">Pessoas diretas, focadas em vencer e resolver problemas rapidamente.</p>
-            </div>
-            <div class="famous-item" style="border-top-color: var(--pantone-yellow);">
-                <h3 style="color: #d4aa00;">Influência (I)</h3>
-                <p><strong>Exemplos:</strong> Bill Clinton, Oprah Winfrey, Will Smith.</p>
-                <p style="font-size: 0.9rem; margin-top: 1rem;">Comunicadores natos, que inspiram através do carisma e relacionamento.</p>
-            </div>
-            <div class="famous-item" style="border-top-color: var(--pantone-green);">
-                <h3 style="color: #2e7d32;">Estabilidade (S)</h3>
-                <p><strong>Exemplos:</strong> Gandhi, Madre Teresa, Jimmy Carter.</p>
-                <p style="font-size: 0.9rem; margin-top: 1rem;">Buscadores de harmonia, consistentes e ótimos ouvintes.</p>
-            </div>
-            <div class="famous-item" style="border-top-color: var(--pantone-blue);">
-                <h3 style="color: var(--pantone-blue);">Conformidade (C)</h3>
-                <p><strong>Exemplos:</strong> Bill Gates, Albert Einstein, Sherlock Holmes.</p>
-                <p style="font-size: 0.9rem; margin-top: 1rem;">Mentes analíticas voltadas para dados, regras e perfeccionismo técnica.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Test Core Section -->
-    <section id="test-section">
-        <div id="test-container">
-            <div class="progress-bar-container">
-                <div id="progress-bar"></div>
-            </div>
-            <div id="question-area">
-                <!-- JS populated -->
-            </div>
-            <div class="controls">
-                <button id="next-btn" class="btn-primary" onclick="handleNext()" disabled>Avançar</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Results Section -->
-    <section id="results">
-        <h2 style="text-align: center; margin-bottom: 2rem;">Seu Relatório Comportamental</h2>
-        <div class="results-grid">
-            <div class="chart-container">
-                <canvas id="resultChart"></canvas>
-            </div>
-            <div class="result-info" id="result-text-content">
-                <!-- JS populated -->
-            </div>
-        </div>
-        <div style="text-align: center; margin-top: 2rem; display: flex; justify-content: center; gap: 1rem;">
-            <button class="btn-primary" style="background: #27ae60;" onclick="downloadPDF()">Baixar Relatório em PDF</button>
-            <button class="btn-primary" onclick="showSection('home')">Voltar ao Início</button>
-        </div>
-    </section>
-
-    <!-- Dashboard Section -->
-    <section id="dashboard">
-        <h2 style="margin-bottom: 2rem;">Seu Histórico de Perfis</h2>
-        <div id="history-container">
-            <!-- JS populated with cards of previous tests -->
-        </div>
-    </section>
-</main>
-
-<footer>
-    <div class="footer-content">
-        <div>
-            <h3>Habitação Mogi</h3>
-            <p>Secretaria Municipal de Habitação e Regularização Fundiária</p>
-            <p style="margin-top: 1rem; color: #aaa;"> <em>'Gestão de Pessoas e Melhoria de Processos'</em></p>
-        </div>
-        <div class="feedback-form">
-            <h4>Feedback do Sistema</h4>
-            <div class="stars" id="star-rating">
-                <span onclick="rate(1)">☆</span><span onclick="rate(2)">☆</span><span onclick="rate(3)">☆</span><span onclick="rate(4)">☆</span><span onclick="rate(5)">☆</span>
-            </div>
-            <textarea placeholder="Deixe seu comentário sobre a experiência..."></textarea>
-            <button class="btn-primary" style="margin-top: 0.5rem; background: #444;" onclick="alert('Obrigado pelo seu feedback!')">Enviar</button>
-        </div>
-    </div>
-</footer>
-
-<script>
-    // --- DATABASE DE QUESTÕES ---
-    // Estrutura: 4 frases. Cada uma ligada a D, I, S ou C.
-    const questions = [
-        { id: 1, options: [
-            { text: "Decidido, focado em vencer obstáculos.", type: "D" },
-            { text: "Convincente, gosta de influenciar os outros.", type: "I" },
-            { text: "Amável, evita conflitos a todo custo.", type: "S" },
-            { text: "Preciso, gosta de dados e fatos.", type: "C" }
-        ]},
-        { id: 2, options: [
-            { text: "Competitivo, busca sempre o primeiro lugar.", type: "D" },
-            { text: "Entusiasta, vê sempre o lado positivo.", type: "I" },
-            { text: "Paciente, sabe esperar o tempo das coisas.", type: "S" },
-            { text: "Lógico, analisa as situações racionalmente.", type: "C" }
-        ]},
-        { id: 3, options: [
-            { text: "Corajoso ao assumir riscos elevados.", type: "D" },
-            { text: "Sociável, faz amigos com facilidade.", type: "I" },
-            { text: "Leal, valoriza relacionamentos de longo prazo.", type: "S" },
-            { text: "Disciplinado, segue normas e procedimentos.", type: "C" }
-        ]},
-        { id: 4, options: [
-            { text: "Direto e objetivo na comunicação.", type: "D" },
-            { text: "Otimista mesmo em situações difíceis.", type: "I" },
-            { text: "Cooperativo, trabalha bem em equipe.", type: "S" },
-            { text: "Perfeccionista em seus entregáveis.", type: "C" }
-        ]},
-        { id: 5, options: [
-            { text: "Autoconfiante e independente.", type: "D" },
-            { text: "Persuasivo e charmoso.", type: "I" },
-            { text: "Calmo e tranquilo sob pressão.", type: "S" },
-            { text: "Cauteloso e atento a detalhes.", type: "C" }
-        ], },
-        // ... Gerando 40 questões simuladas com o mesmo padrão conceitual
-    ];
-
-    // Gerador de questões restantes para completar 40
-    const traits = {
-        D: ["Agressivo com metas", "Rápido na decisão", "Comando", "Foco no resultado", "Exigente", "Impaciente", "Visionário"],
-        I: ["Comunicativo", "Inspirador", "Expansivo", "Amigável", "Impulsivo", "Reconhecimento", "Energético"],
-        S: ["Metódico", "Ouvinte", "Acolhedor", "Estável", "Previsível", "Rotineiro", "Sensível"],
-        C: ["Analítico", "Sistemático", "Crítico", "Organizado", "Especialista", "Regrado", "Discreto"]
-    };
-
-    while(questions.length < 40) {
-        let i = questions.length;
-        questions.push({
-            id: i + 1,
-            options: [
-                { text: traits.D[i % traits.D.length] + " e focado no agora.", type: "D" },
-                { text: traits.I[i % traits.I.length] + " em ambientes sociais.", type: "I" },
-                { text: traits.S[i % traits.S.length] + " na execução de tarefas.", type: "S" },
-                { text: traits.C[i % traits.C.length] + " em relação a padrões.", type: "C" }
-            ]
-        });
-    }
-
-    // --- ESTADO DA APLICAÇÃO ---
-    let currentStep = 0;
-    let scores = { D: 0, I: 0, S: 0, C: 0 };
-    let selectedType = null;
-    let myChart = null;
-
-    // --- NAVEGAÇÃO ---
-    function showSection(sectionId) {
-        document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-        document.getElementById(sectionId).classList.add('active');
-        window.scrollTo(0,0);
+    <!-- MAIN CONTENT -->
+    <main class="max-w-7xl mx-auto py-10 px-6 min-h-[60vh]">
         
-        if(sectionId === 'dashboard') loadDashboard();
-    }
-
-    // --- LÓGICA DO TESTE ---
-    function startTest() {
-        currentStep = 0;
-        scores = { D: 0, I: 0, S: 0, C: 0 };
-        showSection('test-section');
-        renderQuestion();
-    }
-
-    function renderQuestion() {
-        const q = questions[currentStep];
-        const area = document.getElementById('question-area');
-        const progress = ((currentStep) / questions.length) * 100;
-        document.getElementById('progress-bar').style.width = `${progress}%`;
-
-        selectedType = null;
-        document.getElementById('next-btn').disabled = true;
-
-        area.innerHTML = `
-            <p class="question-text">Questão ${q.id} de 40: Qual característica mais te define?</p>
-            <div class="options-list">
-                ${q.options.map((opt, idx) => `
-                    <button class="option-btn" onclick="selectOption(this, '${opt.type}')">
-                        ${opt.text}
-                    </button>
-                `).join('')}
-            </div>
-        `;
-    }
-
-    function selectOption(btn, type) {
-        document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-        selectedType = type;
-        document.getElementById('next-btn').disabled = false;
-    }
-
-    function handleNext() {
-        scores[selectedType]++;
-        currentStep++;
-
-        if (currentStep < questions.length) {
-            renderQuestion();
-        } else {
-            finishTest();
-        }
-    }
-
-    function finishTest() {
-        const dominant = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
-        
-        const testData = {
-            date: new Date().toLocaleString(),
-            dominant: dominant,
-            scores: {...scores}
-        };
-
-        // Salvar no LocalStorage
-        const history = JSON.parse(localStorage.getItem('disc_history') || '[]');
-        history.push(testData);
-        localStorage.setItem('disc_history', JSON.stringify(history));
-
-        // Renderizar Resultado
-        showResults(testData);
-
-        // Mensagem final e redirect parcial (como pedido, mas vamos para o resultado primeiro)
-        setTimeout(() => {
-            console.log("Teste salvo com sucesso!");
-        }, 1000);
-    }
-
-    // --- RESULTADOS E GRÁFICOS ---
-    function showResults(data) {
-        showSection('results');
-        
-        const labels = {
-            'D': { name: 'Dominância', color: '#DA291C', desc: 'Você é focado em resultados e desafios.' },
-            'I': { name: 'Influência', color: '#FFCD00', desc: 'Você é fativo e gosta de influenciar pessoas.' },
-            'S': { name: 'Estabilidade', color: '#2ecc71', desc: 'Você valoriza a paciência e a cooperação.' },
-            'C': { name: 'Conformidade', color: '#0033A0', desc: 'Você preza pela precisão e processos.' }
-        };
-
-        const ctx = document.getElementById('resultChart').getContext('2d');
-        if(myChart) myChart.destroy();
-
-        myChart = new Chart(ctx, {
-            type: 'radar',
-            data: {
-                labels: ['Dominância', 'Influência', 'Estabilidade', 'Conformidade'],
-                datasets: [{
-                    label: 'Seu Perfil',
-                    data: [data.scores.D, data.scores.I, data.scores.S, data.scores.C],
-                    backgroundColor: 'rgba(0, 51, 160, 0.2)',
-                    borderColor: '#0033A0',
-                    borderWidth: 3,
-                    pointBackgroundColor: '#DA291C'
-                }]
-            },
-            options: {
-                scales: {
-                    r: { beginAtZero: true, max: 25 }
-                }
-            }
-        });
-
-        const info = labels[data.dominant];
-        document.getElementById('result-text-content').innerHTML = `
-            <div class="profile-badge" style="background:${info.color}">${info.name}</div>
-            <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">${info.desc}</p>
-            
-            <h4 style="margin-top:1rem;">Dicas para seu perfil:</h4>
-            <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
-                <li>Busque equilibrar sua energia com as necessidades da equipe.</li>
-                <li>Utilize sua força natural para liderar projetos complexos.</li>
-                <li>Trabalhe a escuta ativa para melhorar a colaboração.</li>
-            </ul>
-
-            <h4 style="margin-top:1rem;">Como desenvolver outros eixos:</h4>
-            <p style="font-size: 0.9rem; color: #555;">Tente praticar atividades do perfil oposto ao seu por 15 minutos ao dia para ganhar flexibilidade comportamental.</p>
-        `;
-    }
-
-    // --- DASHBOARD ---
-    function loadDashboard() {
-        const container = document.getElementById('history-container');
-        const history = JSON.parse(localStorage.getItem('disc_history') || '[]');
-
-        if(history.length === 0) {
-            container.innerHTML = "<p>Nenhum teste realizado ainda.</p>";
-            return;
-        }
-
-        container.innerHTML = history.reverse().map(item => `
-            <div style="background:white; padding: 1rem; border-radius:8px; margin-bottom:1rem; display:flex; justify-content:space-between; align-items:center; box-shadow: var(--shadow);">
-                <div>
-                    <strong>Data:</strong> ${item.date} | 
-                    <strong>Perfil:</strong> <span style="font-weight:700; color:var(--pantone-blue)">${item.dominant}</span>
+        <!-- SECTION: HOME / CARDS -->
+        <section id="section-home" class="fade-in">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card Explicação -->
+                <div onclick="showSection('explicação')" class="cursor-pointer p-8 rounded-2xl bg-blue-50 card-shadow border-b-4 border-blue-400">
+                    <h3 class="text-xl font-bold mb-3 text-blue-900">O que é DISC?</h3>
+                    <p class="text-sm text-blue-800 opacity-80">Entenda a metodologia e como os perfis comportamentais influenciam sua carreira.</p>
                 </div>
-                <div style="font-size: 0.8rem;">
-                    D:${item.scores.D} I:${item.scores.I} S:${item.scores.S} C:${item.scores.C}
+                <!-- Card Famosos -->
+                <div onclick="showSection('famosos')" class="cursor-pointer p-8 rounded-2xl bg-fuchsia-50 card-shadow border-b-4 border-fuchsia-400">
+                    <h3 class="text-xl font-bold mb-3 text-fuchsia-900">Exemplos Famosos</h3>
+                    <p class="text-sm text-fuchsia-800 opacity-80">Veja quais figuras públicas compartilham o mesmo perfil que você.</p>
+                </div>
+                <!-- Card Teste -->
+                <div onclick="showSection('teste')" class="cursor-pointer p-8 rounded-2xl bg-orange-50 card-shadow border-b-4 border-orange-400">
+                    <h3 class="text-xl font-bold mb-3 text-orange-900">Fazer o Teste</h3>
+                    <p class="text-sm text-orange-800 opacity-80">Responda 40 questões rápidas e descubra sua dominância comportamental.</p>
+                </div>
+                <!-- Card Dashboard -->
+                <div onclick="showSection('dashboard')" class="cursor-pointer p-8 rounded-2xl bg-emerald-50 card-shadow border-b-4 border-emerald-400">
+                    <h3 class="text-xl font-bold mb-3 text-emerald-900">Seus Resultados</h3>
+                    <p class="text-sm text-emerald-800 opacity-80">Acompanhe seu histórico de avaliações e evolução de perfil.</p>
                 </div>
             </div>
-        `).join('');
-    }
+        </section>
 
-    // --- PDF EXPORT ---
-    function downloadPDF() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-        const history = JSON.parse(localStorage.getItem('disc_history') || '[]');
-        const last = history[history.length - 1];
+        <!-- SECTION: EXPLICAÇÃO -->
+        <section id="section-explicação" class="hidden-section fade-in">
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold mb-6 text-pantone-blue">Entendendo a Metodologia DISC</h2>
+                <div class="prose prose-slate max-w-none space-y-4">
+                    <p>A metodologia DISC é uma ferramenta de avaliação comportamental que classifica as pessoas em quatro tipos principais de personalidade. Não existe perfil "melhor" ou "pior"; o objetivo é entender tendências de comportamento.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                        <div class="p-4 bg-red-50 rounded-lg"><strong class="text-red-700">D - Dominância:</strong> Foco em resultados, desafios e eficiência. São diretos e competitivos.</div>
+                        <div class="p-4 bg-yellow-50 rounded-lg"><strong class="text-yellow-700">I - Influência:</strong> Foco em pessoas, otimismo e entusiasmo. São comunicativos e persuasivos.</div>
+                        <div class="p-4 bg-green-50 rounded-lg"><strong class="text-green-700">S - Estabilidade:</strong> Foco em processos, paciência e harmonia. São leais e bons ouvintes.</div>
+                        <div class="p-4 bg-blue-50 rounded-lg"><strong class="text-blue-700">C - Conformidade:</strong> Foco em precisão, lógica e qualidade. São detalhistas e analíticos.</div>
+                    </div>
+                    <p class="font-semibold text-lg mt-6">Dicas para o Teste:</p>
+                    <ul class="list-disc pl-6 space-y-2">
+                        <li>Não há resposta certa ou errada.</li>
+                        <li>Seja honesto consigo mesmo; responda o que você <strong>é</strong>, não o que gostaria de ser.</li>
+                        <li>Escolha a palavra que melhor descreve você no ambiente de trabalho.</li>
+                    </ul>
+                </div>
+                <button onclick="showSection('teste')" class="mt-8 bg-pantone-blue text-white px-8 py-3 rounded-full font-bold hover:opacity-90 transition">Começar Teste Agora</button>
+            </div>
+        </section>
 
-        doc.setFontSize(22);
-        doc.text("Relatório de Perfil DISC", 20, 20);
-        doc.setFontSize(12);
-        doc.text(`Secretaria de Habitação - Mogi das Cruzes`, 20, 30);
-        doc.text(`Data do Teste: ${last.date}`, 20, 40);
-        
-        doc.setFontSize(16);
-        doc.text(`Perfil Dominante: ${last.dominant}`, 20, 60);
+        <!-- SECTION: FAMOSOS -->
+        <section id="section-famosos" class="hidden-section fade-in">
+            <h2 class="text-3xl font-bold mb-8 text-center text-slate-800">Perfis DISC de Grandes Personalidades</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-t-4 border-red-500">
+                    <div class="text-4xl mb-4 text-red-500 font-black">D</div>
+                    <h4 class="font-bold text-lg">Dominantes</h4>
+                    <p class="text-sm italic mb-4">"Vim para vencer."</p>
+                    <ul class="text-sm space-y-2 font-medium">
+                        <li>Steve Jobs</li>
+                        <li>Donald Trump</li>
+                        <li>Hillary Clinton</li>
+                        <li>Gordon Ramsay</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-t-4 border-yellow-500">
+                    <div class="text-4xl mb-4 text-yellow-500 font-black">I</div>
+                    <h4 class="font-bold text-lg">Influentes</h4>
+                    <p class="text-sm italic mb-4">"Vamos fazer juntos!"</p>
+                    <ul class="text-sm space-y-2 font-medium">
+                        <li>Bill Clinton</li>
+                        <li>Will Smith</li>
+                        <li>Ellen DeGeneres</li>
+                        <li>Jim Carrey</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-t-4 border-green-500">
+                    <div class="text-4xl mb-4 text-green-500 font-black">S</div>
+                    <h4 class="font-bold text-lg">Estáveis</h4>
+                    <p class="text-sm italic mb-4">"Harmonia em primeiro lugar."</p>
+                    <ul class="text-sm space-y-2 font-medium">
+                        <li>Mahatma Gandhi</li>
+                        <li>Mister Rogers</li>
+                        <li>Princesa Diana</li>
+                        <li>Jimmy Carter</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-t-4 border-blue-500">
+                    <div class="text-4xl mb-4 text-blue-500 font-black">C</div>
+                    <h4 class="font-bold text-lg">Conformes</h4>
+                    <p class="text-sm italic mb-4">"A qualidade está nos detalhes."</p>
+                    <ul class="text-sm space-y-2 font-medium">
+                        <li>Bill Gates</li>
+                        <li>Albert Einstein</li>
+                        <li>Mark Zuckerberg</li>
+                        <li>Kevin Costner</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
 
-        const tableData = [
-            ["Eixo", "Pontuação"],
-            ["Dominância (D)", last.scores.D],
-            ["Influência (I)", last.scores.I],
-            ["Estabilidade (S)", last.scores.S],
-            ["Conformidade (C)", last.scores.C]
+        <!-- SECTION: O TESTE -->
+        <section id="section-teste" class="hidden-section fade-in">
+            <div class="max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-xl">
+                <div class="mb-6">
+                    <div class="flex justify-between text-xs font-bold text-slate-400 mb-2 uppercase">
+                        <span>Progresso</span>
+                        <span id="progress-text">Questão 1 de 40</span>
+                    </div>
+                    <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                        <div id="progress-bar" class="bg-pantone-blue h-full progress-bar" style="width: 2.5%;"></div>
+                    </div>
+                </div>
+                
+                <h3 class="text-xl font-bold mb-6 text-center">Qual dessas palavras melhor descreve você?</h3>
+                
+                <div id="options-container" class="grid grid-cols-1 gap-4">
+                    <!-- Opções injetadas via JS -->
+                </div>
+                
+                <div class="mt-8 flex justify-center">
+                    <button id="btn-next" disabled class="bg-slate-300 text-white px-10 py-3 rounded-full font-bold cursor-not-allowed transition">Avançar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: RESULTADO -->
+        <section id="section-resultado" class="hidden-section fade-in">
+            <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                <div class="bg-white p-8 rounded-2xl shadow-lg border border-slate-100">
+                    <h2 class="text-2xl font-bold mb-6">Seu Perfil Comportamental</h2>
+                    <canvas id="chart-resultado" class="mb-6"></canvas>
+                    <div class="flex justify-center gap-4">
+                        <button onclick="downloadPDF()" class="bg-red-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-red-700">Baixar PDF</button>
+                        <button onclick="showSection('home')" class="bg-slate-200 text-slate-700 px-6 py-2 rounded-lg font-bold hover:bg-slate-300">Voltar ao Início</button>
+                    </div>
+                </div>
+                
+                <div class="space-y-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-md border-l-8 border-pantone-blue">
+                        <h3 class="font-bold text-xl mb-3">Dicas para o seu Perfil Dominante</h3>
+                        <p id="perfil-info" class="text-slate-600 text-sm leading-relaxed"></p>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-dashed border-slate-300">
+                        <h3 class="font-bold text-lg mb-2">Como desenvolver outros perfis?</h3>
+                        <p class="text-slate-600 text-sm">O equilíbrio é a chave. Procure observar as características que obteve menor pontuação e pratique-as em pequenos desafios diários.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: DASHBOARD -->
+        <section id="section-dashboard" class="hidden-section fade-in">
+            <h2 class="text-3xl font-bold mb-8 text-pantone-blue">Histórico de Resultados</h2>
+            <div id="dashboard-empty" class="text-center py-20 bg-white rounded-2xl shadow-inner hidden">
+                <p class="text-slate-400">Nenhum resultado encontrado ainda.</p>
+            </div>
+            <div id="dashboard-content" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm">
+                    <canvas id="chart-dashboard-history"></canvas>
+                </div>
+                <div id="history-list" class="space-y-4 max-h-[500px] overflow-y-auto pr-2">
+                    <!-- Itens do histórico -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-white pt-12 pb-6 px-6 mt-20">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-10">
+            <div>
+                <h4 class="font-bold text-xl mb-4">Gestão de Pessoas e Melhoria de Processos</h4>
+                <p class="text-sm opacity-60">Secretaria de Habitação de Mogi das Cruzes</p>
+            </div>
+            <div class="bg-slate-800 p-6 rounded-xl flex-1 max-w-md">
+                <h5 class="font-bold mb-4">O que achou deste portal?</h5>
+                <div class="flex gap-2 mb-4" id="star-rating">
+                    <span class="cursor-pointer text-2xl opacity-30 hover:opacity-100 transition" onclick="setRate(1)">★</span>
+                    <span class="cursor-pointer text-2xl opacity-30 hover:opacity-100 transition" onclick="setRate(2)">★</span>
+                    <span class="cursor-pointer text-2xl opacity-30 hover:opacity-100 transition" onclick="setRate(3)">★</span>
+                    <span class="cursor-pointer text-2xl opacity-30 hover:opacity-100 transition" onclick="setRate(4)">★</span>
+                    <span class="cursor-pointer text-2xl opacity-30 hover:opacity-100 transition" onclick="setRate(5)">★</span>
+                </div>
+                <textarea class="w-full bg-slate-700 border-none rounded-lg p-3 text-sm focus:ring-2 focus:ring-pantone-blue" placeholder="Deixe um comentário..." rows="2"></textarea>
+                <button onclick="alert('Feedback enviado! Obrigado.')" class="mt-3 bg-pantone-blue px-6 py-2 rounded font-bold text-sm w-full">Enviar Feedback</button>
+            </div>
+        </div>
+        <div class="border-t border-white/10 mt-12 pt-6 text-center text-xs opacity-40">
+            © 2024 Prefeitura de Mogi das Cruzes. Desenvolvido para RH.
+        </div>
+    </footer>
+
+    <!-- LOGIC -->
+    <script>
+        // DATA
+        const perguntas = [
+            { o: ["Decidido", "Entusiasta", "Amável", "Cuidadoso"], p: ["D", "I", "S", "C"] },
+            { o: ["Competitivo", "Animado", "Paciente", "Preciso"], p: ["D", "I", "S", "C"] },
+            { o: ["Ousado", "Sociável", "Estável", "Lógico"], p: ["D", "I", "S", "C"] },
+            { o: ["Direto", "Influenciador", "Gentil", "Disciplinado"], p: ["D", "I", "S", "C"] },
+            { o: ["Empreendedor", "Eloquente", "Previsível", "Analítico"], p: ["D", "I", "S", "C"] },
+            { o: ["Auto-confiante", "Persuasivo", "Sereno", "Perfeccionista"], p: ["D", "I", "S", "C"] },
+            { o: ["Vigoroso", "Expressivo", "Cooperativo", "Sistemático"], p: ["D", "I", "S", "C"] },
+            { o: ["Pioneiro", "Extrovertido", "Acolhedor", "Exato"], p: ["D", "I", "S", "C"] },
+            { o: ["Rápido", "Comunicativo", "Conciliador", "Detalhista"], p: ["D", "I", "S", "C"] },
+            { o: ["Focado em resultados", "Magnético", "Leal", "Convencional"], p: ["D", "I", "S", "C"] },
+            { o: ["Independente", "Otimista", "Calmo", "Objetivo"], p: ["D", "I", "S", "C"] },
+            { o: ["Firme", "Espirituoso", "Bondoso", "Cauteloso"], p: ["D", "I", "S", "C"] },
+            { o: ["Assertivo", "Popular", "Modesto", "Organizado"], p: ["D", "I", "S", "C"] },
+            { o: ["Intrépido", "Alegre", "Apoia os outros", "Estratégico"], p: ["D", "I", "S", "C"] },
+            { o: ["Comandante", "Divertido", "Resiliente", "Rigoroso"], p: ["D", "I", "S", "C"] },
+            { o: ["Pragmático", "Radiante", "Flexível", "Metódico"], p: ["D", "I", "S", "C"] },
+            { o: ["Dominante", "Amigável", "Tolerante", "Especialista"], p: ["D", "I", "S", "C"] },
+            { o: ["Líder", "Inspirador", "Ouvinte", "Meticuloso"], p: ["D", "I", "S", "C"] },
+            { o: ["Obstinado", "Encantador", "Harmonioso", "Factual"], p: ["D", "I", "S", "C"] },
+            { o: ["Eficaz", "Dinâmico", "Constante", "Questionador"], p: ["D", "I", "S", "C"] },
+            { o: ["Inovador", "Impulsivo", "Satisfeito", "Crítico"], p: ["D", "I", "S", "C"] },
+            { o: ["Corajoso", "Confiante", "Discreto", "Disciplinado"], p: ["D", "I", "S", "C"] },
+            { o: ["Ativo", "Estimulante", "Prestativo", "Observador"], p: ["D", "I", "S", "C"] },
+            { o: ["Executor", "Influente", "Paciente", "Zeloso"], p: ["D", "I", "S", "C"] },
+            { o: ["Intense", "Gosta de grupos", "Tranquilo", "Racional"], p: ["D", "I", "S", "C"] },
+            { o: ["Forte", "Charmoso", "Manso", "Imparcial"], p: ["D", "I", "S", "C"] },
+            { o: ["Direcionado", "Brilhante", "Mediador", "Fiel"], p: ["D", "I", "S", "C"] },
+            { o: ["Determinado", "Expansivo", "Ponderado", "Escrupuloso"], p: ["D", "I", "S", "C"] },
+            { o: ["Audaz", "Convincente", "Suave", "Teórico"], p: ["D", "I", "S", "C"] },
+            { o: ["Autoritário", "Espontâneo", "Saciável", "Didático"], p: ["D", "I", "S", "C"] },
+            { o: ["Rápido para agir", "Rápido para falar", "Rápido para ajudar", "Rápido para pensar"], p: ["D", "I", "S", "C"] },
+            { o: ["Exigente", "Descontraído", "Solidário", "Formal"], p: ["D", "I", "S", "C"] },
+            { o: ["Aventureiro", "Entusiasta", "Composto", "Sério"], p: ["D", "I", "S", "C"] },
+            { o: ["Argumentativo", "Apaixonante", "Amigável", "Prudente"], p: ["D", "I", "S", "C"] },
+            { o: ["Decisivo", "Persuasivo", "Estável", "Analítico"], p: ["D", "I", "S", "C"] },
+            { o: ["Auto-suficiente", "Sociável", "Pacífico", "Diplomata"], p: ["D", "I", "S", "C"] },
+            { o: ["Arrojado", "Comunicativo", "Submisso", "Acurado"], p: ["D", "I", "S", "C"] },
+            { o: ["Direto", "Cativante", "Metódico", "Reservado"], p: ["D", "I", "S", "C"] },
+            { o: ["Competitivo", "Energético", "Relutante", "Introvertido"], p: ["D", "I", "S", "C"] },
+            { o: ["Resolvedor", "Facilitador", "Apoiador", "Investigador"], p: ["D", "I", "S", "C"] }
         ];
 
-        doc.autoTable({
-            startY: 70,
-            head: [tableData[0]],
-            body: tableData.slice(1),
-        });
+        const perfilDicas = {
+            D: "Você é focado em resultados e metas. Aproveite sua proatividade para liderar projetos, mas tome cuidado para não ser visto como impaciente. Desenvolva a escuta ativa.",
+            I: "Sua habilidade de comunicação e otimismo são contagiantes. Use isso para engajar equipes, mas tente manter o foco em detalhes técnicos e prazos.",
+            S: "Você é o pilar de estabilidade e confiança da equipe. Ótimo em processos de longo prazo. Procure ser mais assertivo em tomadas de decisão rápidas.",
+            C: "Sua precisão e análise garantem a qualidade. Perfeito para auditorias e planejamento técnico. Tente ser menos crítico consigo mesmo e com os outros."
+        };
 
-        doc.text("Dicas de Desenvolvimento:", 20, doc.lastAutoTable.finalY + 20);
-        doc.setFontSize(10);
-        doc.text("- Foque em suas fortalezas naturais identificadas no teste.", 20, doc.lastAutoTable.finalY + 30);
-        doc.text("- Busque parcerias com perfis complementares ao seu.", 20, doc.lastAutoTable.finalY + 35);
+        // STATE
+        let currentQuestion = 0;
+        let respostasUsuario = [];
+        let selectedOption = null;
+        let chartInstance = null;
+        let dashChartInstance = null;
 
-        doc.save(`Resultado_DISC_${last.dominant}.pdf`);
-    }
-
-    // Feedback Stars
-    function rate(n) {
-        const stars = document.getElementById('star-rating').children;
-        for(let i=0; i<5; i++) {
-            stars[i].innerHTML = i < n ? "★" : "☆";
-            stars[i].style.color = i < n ? "var(--pantone-yellow)" : "white";
+        // SPA ROUTING
+        function showSection(id) {
+            document.querySelectorAll('main section').forEach(s => s.classList.add('hidden-section'));
+            document.getElementById(`section-${id}`).classList.remove('hidden-section');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            if (id === 'dashboard') loadDashboard();
+            if (id === 'teste') resetTest();
         }
-    }
 
-</script>
+        // TEST LOGIC
+        function resetTest() {
+            currentQuestion = 0;
+            respostasUsuario = [];
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const q = perguntas[currentQuestion];
+            const container = document.getElementById('options-container');
+            const progressText = document.getElementById('progress-text');
+            const progressBar = document.getElementById('progress-bar');
+            const btnNext = document.getElementById('btn-next');
+
+            progressText.innerText = `Questão ${currentQuestion + 1} de 40`;
+            progressBar.style.width = `${((currentQuestion + 1) / 40) * 100}%`;
+            btnNext.disabled = true;
+            btnNext.classList.replace('bg-pantone-blue', 'bg-slate-300');
+            btnNext.classList.add('cursor-not-allowed');
+
+            container.innerHTML = '';
+            
+            // Randomizar opções apenas visualmente para evitar viés de posição
+            const indices = [0, 1, 2, 3];
+            indices.forEach(idx => {
+                const button = document.createElement('button');
+                button.className = "p-4 text-left border-2 border-slate-200 rounded-xl hover:bg-slate-50 transition-all font-medium flex justify-between items-center group";
+                button.innerHTML = `<span>${q.o[idx]}</span> <div class="w-6 h-6 rounded-full border-2 border-slate-200 group-[.selected]:bg-pantone-blue group-[.selected]:border-pantone-blue"></div>`;
+                button.onclick = () => selectOption(button, q.p[idx]);
+                container.appendChild(button);
+            });
+
+            btnNext.onclick = nextQuestion;
+        }
+
+        function selectOption(el, value) {
+            document.querySelectorAll('#options-container button').forEach(b => b.classList.remove('selected', 'border-pantone-blue'));
+            el.classList.add('selected', 'border-pantone-blue');
+            selectedOption = value;
+            
+            const btnNext = document.getElementById('btn-next');
+            btnNext.disabled = false;
+            btnNext.classList.replace('bg-slate-300', 'bg-pantone-blue');
+            btnNext.classList.remove('cursor-not-allowed');
+        }
+
+        function nextQuestion() {
+            respostasUsuario.push(selectedOption);
+            selectedOption = null;
+            currentQuestion++;
+
+            if (currentQuestion < perguntas.length) {
+                renderQuestion();
+            } else {
+                finalizarTeste();
+            }
+        }
+
+        function finalizarTeste() {
+            const totais = { D: 0, I: 0, S: 0, C: 0 };
+            respostasUsuario.forEach(res => totais[res]++);
+            
+            const total = perguntas.length;
+            const porcentagens = {
+                D: ((totais.D / total) * 100).toFixed(1),
+                I: ((totais.I / total) * 100).toFixed(1),
+                S: ((totais.S / total) * 100).toFixed(1),
+                C: ((totais.C / total) * 100).toFixed(1)
+            };
+
+            // Determinar perfil dominante
+            let dominante = 'D';
+            if (parseFloat(porcentagens.I) > parseFloat(porcentagens[dominante])) dominante = 'I';
+            if (parseFloat(porcentagens.S) > parseFloat(porcentagens[dominante])) dominante = 'S';
+            if (parseFloat(porcentagens.C) > parseFloat(porcentagens[dominante])) dominante = 'C';
+
+            // Guardar no storage
+            const historico = JSON.parse(localStorage.getItem('disc_results') || '[]');
+            historico.push({
+                data: new Date().toLocaleDateString('pt-BR'),
+                dominante: dominante,
+                pontos: porcentagens
+            });
+            localStorage.setItem('disc_results', JSON.stringify(historico));
+
+            // UI
+            document.getElementById('perfil-info').innerText = perfilDicas[dominante];
+            renderGrafico(porcentagens);
+            showSection('resultado');
+            
+            setTimeout(() => {
+                const container = document.createElement('div');
+                container.className = "fixed inset-0 bg-black/50 flex items-center justify-center z-[100] fade-in";
+                container.innerHTML = `<div class="bg-white p-10 rounded-3xl text-center shadow-2xl">
+                    <div class="text-6xl mb-4">🎉</div>
+                    <h2 class="text-2xl font-bold mb-2">Obrigado!</h2>
+                    <p class="text-slate-500">Parabéns por sua participação!</p>
+                </div>`;
+                document.body.appendChild(container);
+                setTimeout(() => {
+                    container.remove();
+                    showSection('home');
+                }, 3000);
+            }, 500);
+        }
+
+        function renderGrafico(data) {
+            const ctx = document.getElementById('chart-resultado').getContext('2d');
+            if (chartInstance) chartInstance.destroy();
+
+            chartInstance = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Dominância', 'Influência', 'Estabilidade', 'Conformidade'],
+                    datasets: [{
+                        label: 'Seu Perfil %',
+                        data: [data.D, data.I, data.S, data.C],
+                        backgroundColor: 'rgba(0, 51, 160, 0.2)',
+                        borderColor: '#0033A0',
+                        borderWidth: 3,
+                        pointBackgroundColor: '#0033A0'
+                    }]
+                },
+                options: {
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: { stepSize: 20 }
+                        }
+                    }
+                }
+            });
+        }
+
+        // DASHBOARD
+        function loadDashboard() {
+            const historico = JSON.parse(localStorage.getItem('disc_results') || '[]');
+            const list = document.getElementById('history-list');
+            const empty = document.getElementById('dashboard-empty');
+            const content = document.getElementById('dashboard-content');
+
+            if (historico.length === 0) {
+                empty.classList.remove('hidden');
+                content.classList.add('hidden');
+                return;
+            }
+
+            empty.classList.add('hidden');
+            content.classList.remove('hidden');
+
+            list.innerHTML = historico.reverse().map((h, i) => `
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex justify-between items-center">
+                    <div>
+                        <div class="text-xs font-bold text-slate-400">${h.data}</div>
+                        <div class="font-bold text-lg">Perfil: ${h.dominante}</div>
+                    </div>
+                    <div class="flex gap-1">
+                        <span class="w-3 h-3 rounded-full ${parseFloat(h.pontos.D) > 25 ? 'bg-red-500' : 'bg-slate-300'}"></span>
+                        <span class="w-3 h-3 rounded-full ${parseFloat(h.pontos.I) > 25 ? 'bg-yellow-500' : 'bg-slate-300'}"></span>
+                        <span class="w-3 h-3 rounded-full ${parseFloat(h.pontos.S) > 25 ? 'bg-green-500' : 'bg-slate-300'}"></span>
+                        <span class="w-3 h-3 rounded-full ${parseFloat(h.pontos.C) > 25 ? 'bg-blue-500' : 'bg-slate-300'}"></span>
+                    </div>
+                </div>
+            `).join('');
+
+            // Gráfico de evolução (Barras)
+            const ctxDash = document.getElementById('chart-dashboard-history').getContext('2d');
+            if (dashChartInstance) dashChartInstance.destroy();
+
+            const last5 = historico.slice(-5);
+            dashChartInstance = new Chart(ctxDash, {
+                type: 'bar',
+                data: {
+                    labels: last5.map(h => h.data),
+                    datasets: [
+                        { label: 'D', data: last5.map(h => h.pontos.D), backgroundColor: '#EF4444' },
+                        { label: 'I', data: last5.map(h => h.pontos.I), backgroundColor: '#F59E0B' },
+                        { label: 'S', data: last5.map(h => h.pontos.S), backgroundColor: '#10B981' },
+                        { label: 'C', data: last5.map(h => h.pontos.C), backgroundColor: '#3B82F6' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { title: { display: true, text: 'Últimos 5 Resultados' } },
+                    scales: { y: { beginAtZero: true, max: 100 } }
+                }
+            });
+        }
+
+        // EXPORT
+        async function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const historico = JSON.parse(localStorage.getItem('disc_results') || '[]');
+            const result = historico[historico.length - 1];
+
+            doc.setFontSize(22);
+            doc.text("Relatório de Perfil DISC", 20, 20);
+            doc.setFontSize(12);
+            doc.text(`Data: ${result.data}`, 20, 30);
+            doc.text("Secretaria Municipal de Habitação e Regularização Fundiária - Mogi das Cruzes", 20, 38);
+            
+            doc.setFontSize(16);
+            doc.text(`Perfil Dominante: ${result.dominante}`, 20, 55);
+            
+            doc.setFontSize(12);
+            doc.text("Pontuações:", 20, 70);
+            doc.text(`- Dominância: ${result.pontos.D}%`, 30, 80);
+            doc.text(`- Influência: ${result.pontos.I}%`, 30, 90);
+            doc.text(`- Estabilidade: ${result.pontos.S}%`, 30, 100);
+            doc.text(`- Conformidade: ${result.pontos.C}%`, 30, 110);
+
+            doc.text("Dica Profissional:", 20, 130);
+            const splitText = doc.splitTextToSize(perfilDicas[result.dominante], 170);
+            doc.text(splitText, 20, 140);
+
+            doc.save(`Resultado_DISC_${result.data.replace(/\//g,'-')}.pdf`);
+        }
+
+        function setRate(stars) {
+            const starElements = document.querySelectorAll('#star-rating span');
+            starElements.forEach((el, i) => {
+                el.style.opacity = i < stars ? '1' : '0.3';
+                el.style.color = i < stars ? 'var(--pantone-yellow)' : 'white';
+            });
+        }
+    </script>
 </body>
 </html>
