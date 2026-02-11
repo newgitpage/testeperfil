@@ -19,6 +19,19 @@
             --pantone-blue: #0033A0;
             --pantone-yellow: #FFCD00;
         }
+        .nav-item {
+    padding: 1rem 1.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease-in-out;
+}
+
+.nav-item:hover {
+    border-bottom: 2px solid #facc15; /* substitua pela sua cor pantone */
+    color: #facc15;
+}
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
         .bg-pantone-blue { background-color: var(--pantone-blue); }
         .text-pantone-blue { color: var(--pantone-blue); }
@@ -46,15 +59,46 @@
     </header>
 
     <!-- NAVIGATION -->
-    <nav class="bg-slate-900 text-white sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto flex justify-center">
-            <button onclick="showSection('home')" class="px-6 py-4 font-semibold hover-nav uppercase text-sm border-b-2 border-transparent hover:border-pantone-yellow">Início</button>
-            <button onclick="showSection('explicação')" class="px-6 py-4 font-semibold hover-nav uppercase text-sm border-b-2 border-transparent hover:border-pantone-yellow">Explicação</button>
-            <button onclick="showSection('famosos')" class="px-6 py-4 font-semibold hover-nav uppercase text-sm border-b-2 border-transparent hover:border-pantone-yellow">Famosos</button>
-            <button onclick="showSection('teste')" class="px-6 py-4 font-semibold hover-nav uppercase text-sm border-b-2 border-transparent hover:border-pantone-yellow">O Teste</button>
-            <button onclick="showSection('dashboard')" class="px-6 py-4 font-semibold hover-nav uppercase text-sm border-b-2 border-transparent hover:border-pantone-yellow">Dashboard</button>
+<nav class="bg-slate-900 text-white sticky top-0 z-50 shadow-md">
+    
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-4">
+
+        <!-- Logo ou Título -->
+        <div class="py-4 font-bold uppercase tracking-wider">
+            Meu Site
         </div>
-    </nav>
+
+        <!-- Botão Mobile -->
+        <button id="menu-btn" class="md:hidden text-2xl focus:outline-none">
+            ☰
+        </button>
+
+        <!-- Menu -->
+        <div id="menu" class="hidden md:flex flex-col md:flex-row md:items-center w-full md:w-auto absolute md:static top-16 left-0 bg-slate-900 md:bg-transparent transition-all duration-300 ease-in-out">
+
+            <button onclick="showSection('home')" class="nav-item">
+                Início
+            </button>
+
+            <button onclick="showSection('explicação')" class="nav-item">
+                Explicação
+            </button>
+
+            <button onclick="showSection('famosos')" class="nav-item">
+                Famosos
+            </button>
+
+            <button onclick="showSection('teste')" class="nav-item">
+                O Teste
+            </button>
+
+            <button onclick="showSection('dashboard')" class="nav-item">
+                Dashboard
+            </button>
+
+        </div>
+    </div>
+</nav>
 
     <!-- MAIN CONTENT -->
     <main class="max-w-7xl mx-auto py-10 px-6 min-h-[60vh]">
@@ -551,5 +595,13 @@
             });
         }
     </script>
+    <script>
+const menuBtn = document.getElementById('menu-btn');
+const menu = document.getElementById('menu');
+
+menuBtn.addEventListener('click', () => {
+    menu.classList.toggle('hidden');
+});
+</script>
 </body>
 </html>
