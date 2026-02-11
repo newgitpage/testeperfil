@@ -19,19 +19,6 @@
             --pantone-blue: #0033A0;
             --pantone-yellow: #FFCD00;
         }
-        .nav-item {
-    padding: 1rem 1.5rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.875rem;
-    border-bottom: 2px solid transparent;
-    transition: all 0.3s ease-in-out;
-}
-
-.nav-item:hover {
-    border-bottom: 2px solid #facc15; /* substitua pela sua cor pantone */
-    color: #facc15;
-}
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
         .bg-pantone-blue { background-color: var(--pantone-blue); }
         .text-pantone-blue { color: var(--pantone-blue); }
@@ -59,46 +46,15 @@
     </header>
 
     <!-- NAVIGATION -->
-<nav class="bg-slate-900 text-white sticky top-0 z-50 shadow-md">
-    
-    <div class="max-w-7xl mx-auto flex items-center justify-between px-4">
-
-        <!-- Logo ou Título -->
-        <div class="py-4 font-bold uppercase tracking-wider">
-        
+    <nav class="bg-slate-900 text-white sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex justify-center">
+            <button onclick="showSection('home')" class="px-6 py-4 font-semibold hover-nav uppercase text-sm border-b-2 border-transparent hover:border-pantone-yellow">Início</button>
+            <button onclick="showSection('explicação')" class="px-6 py-4 font-semibold hover-nav uppercase text-sm border-b-2 border-transparent hover:border-pantone-yellow">Metodologia</button>
+            <button onclick="showSection('famosos')" class="px-6 py-4 font-semibold hover-nav uppercase text-sm border-b-2 border-transparent hover:border-pantone-yellow">Famosos</button>
+            <button onclick="showSection('teste')" class="px-6 py-4 font-semibold hover-nav uppercase text-sm border-b-2 border-transparent hover:border-pantone-yellow">O Teste</button>
+            <button onclick="showSection('dashboard')" class="px-6 py-4 font-semibold hover-nav uppercase text-sm border-b-2 border-transparent hover:border-pantone-yellow">Dashboard</button>
         </div>
-
-        <!-- Botão Mobile -->
-        <button id="menu-btn" class="md:hidden text-2xl focus:outline-none">
-            ☰
-        </button>
-
-        <!-- Menu -->
-        <div id="menu" class="hidden md:flex flex-col md:flex-row md:items-center w-full md:w-auto absolute md:static top-16 left-0 bg-slate-900 md:bg-transparent transition-all duration-300 ease-in-out">
-
-            <button onclick="showSection('home')" class="nav-item">
-                Início
-            </button>
-
-            <button onclick="showSection('explicação')" class="nav-item">
-                Explicação
-            </button>
-
-            <button onclick="showSection('famosos')" class="nav-item">
-                Famosos
-            </button>
-
-            <button onclick="showSection('teste')" class="nav-item">
-                O Teste
-            </button>
-
-            <button onclick="showSection('dashboard')" class="nav-item">
-                Dashboard
-            </button>
-
-        </div>
-    </div>
-</nav>
+    </nav>
 
     <!-- MAIN CONTENT -->
     <main class="max-w-7xl mx-auto py-10 px-6 min-h-[60vh]">
@@ -155,7 +111,7 @@
         <!-- SECTION: FAMOSOS -->
         <section id="section-famosos" class="hidden-section fade-in">
             <h2 class="text-3xl font-bold mb-8 text-center text-slate-800">Perfis DISC de Grandes Personalidades</h2>
-            <h3 class="text-3xl font-regular mb-8 text-center text-slate-800">Pessoas famosas e o seu perfil de personalidade.</h3>
+            <h1 class="text-3xl font-regular mb-8 text-center text-slate-800">Exemplos de famosos e seus estilos de personalidade</h1>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
                 <div class="bg-white p-6 rounded-2xl shadow-sm border-t-4 border-red-500">
                     <div class="text-4xl mb-4 text-red-500 font-black">D</div>
@@ -184,10 +140,10 @@
                     <h4 class="font-bold text-lg">Estáveis</h4>
                     <p class="text-sm italic mb-4">"Harmonia em primeiro lugar."</p>
                     <ul class="text-sm space-y-2 font-medium">
-                        <li>Walt Disney</li>
+                        <li>Keanu Reeves</li>
                         <li>Angelina Jolie</li>
                         <li>Princesa Diana</li>
-                        <li>Jimmy Carter</li>
+                        <li>Stephen Spielberg</li>
                     </ul>
                 </div>
                 <div class="bg-white p-6 rounded-2xl shadow-sm border-t-4 border-blue-500">
@@ -280,7 +236,7 @@
                 <p class="text-sm opacity-60">Secretaria de Habitação de Mogi das Cruzes</p>
             </div>
             <div class="bg-slate-800 p-6 rounded-xl flex-1 max-w-md">
-                <h5 class="font-bold mb-4">O que achou deste portal?</h5>
+                <h5 class="font-bold mb-4">O que achou desta página?</h5>
                 <div class="flex gap-2 mb-4" id="star-rating">
                     <span class="cursor-pointer text-2xl opacity-30 hover:opacity-100 transition" onclick="setRate(1)">★</span>
                     <span class="cursor-pointer text-2xl opacity-30 hover:opacity-100 transition" onclick="setRate(2)">★</span>
@@ -595,13 +551,5 @@
             });
         }
     </script>
-    <script>
-const menuBtn = document.getElementById('menu-btn');
-const menu = document.getElementById('menu');
-
-menuBtn.addEventListener('click', () => {
-    menu.classList.toggle('hidden');
-});
-</script>
 </body>
 </html>
